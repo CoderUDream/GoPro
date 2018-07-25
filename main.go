@@ -22,5 +22,5 @@ func main() {
 	//i := make(chan int)
 	//log.Println(<- i)
 	//log.Println("------------------end---------------------")
-	time.Sleep(60 * time.Second)
+	time.Sleep(50 * time.Second)
 }
