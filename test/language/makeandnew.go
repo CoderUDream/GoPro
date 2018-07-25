@@ -1,20 +1,22 @@
-package makeandnew
+package language
 
 import (
-"fmt"
-"strconv"
+	"fmt"
+	"strconv"
 )
 
 type Student struct {
 	name string
-	age int
+	age  int
 }
 
 func testBasic() {
 	//定义普通变量
 	var i1 int
 	i2 := 3
-	fmt.Println(fmt.Sprintf("i1:%d, i2:%d", i1, i2))
+	i3, i4 := 4, 5 //多个变量一起定义
+
+	fmt.Println(fmt.Sprintf("i1:%d, i2:%d, i3:%d, i4:%d", i1, i2, i3, i4))
 
 	//定义结构体变量（不涉及指针等）
 	var stu1 Student
@@ -37,17 +39,17 @@ func pointerAndRef() {
 		}
 	}()
 
-	var i *int 		//定义一个指针
-	*i = 10	   		//panic  没有分配地址
-	fmt.Println(i)  //panic  没有分配地址
+	var i *int     //定义一个指针
+	*i = 10        //panic  没有分配地址
+	fmt.Println(i) //panic  没有分配地址
 
 	//同样的Studeng结构体 也会出现这个问题，所以引入make 和 直接初始化
 	var i2 *int
-	i2 = new(int)  //也可以 i2 := 2  //直接分配内存且初始化
+	i2 = new(int) //也可以 i2 := 2  //直接分配内存且初始化
 	*i2 = 10
-	fmt.Println(i2)  //正确
+	fmt.Println(i2) //正确
 
-	var stu1 *Student	//指针类型
+	var stu1 *Student //指针类型
 	// 也可以使用 stu1 := Student{"zhao, 1} 这种方式初始化的为引用类型
 	stu1 = new(Student)
 	stu1.name = "zhao"
@@ -71,12 +73,12 @@ func testMakeSlice() {
 	fmt.Println("make只用于chan、map以及切片的内存创建, 并且重置这块内存数据为0")
 
 	//切片 slice
-	var numbers1 [] int = make([]int, 0, 10)
+	var numbers1 []int = make([]int, 0, 10)
 	printSlice(numbers1)
 
 	//分配了len=5 cap（容量）=10  这样索引最多到第五个元素
 	//分配10的cap意义在于当需要扩容的时候，因为预先分配了16大小，将不需要再分配在16范围内的大小，节约时间和内存
-	numbers2 := make([]int, 5, 16)  //
+	numbers2 := make([]int, 5, 16) //
 	printSlice(numbers2)
 	numbers3 := []int{1, 2, 3, 4}
 	printSlice(numbers3)
@@ -87,7 +89,9 @@ func testMakeSlice() {
 }
 
 func printMap(m map[string]string) {
-	for key, value := range m { fmt.Println("Key:", key, "Value:", value) }
+	for key, value := range m {
+		fmt.Println("Key:", key, "Value:", value)
+	}
 }
 
 //make map
@@ -98,11 +102,11 @@ func testMakeMap() {
 		}
 	}()
 
-	var m1 map[string]string  //只定义了一指针
-	var m2 map[string]string = map[string]string{"li":"1"}
+	var m1 map[string]string //只定义了一指针
+	var m2 map[string]string = map[string]string{"li": "1"}
 	var m3 = make(map[string]string)
 
-	m4 := map[string]string{"li":"1"}
+	m4 := map[string]string{"li": "1"}
 	m5 := make(map[string]string)
 	//panic 因为m1是没有分配内存的
 	//m1["li"] = "1"
@@ -118,7 +122,7 @@ func testMakeMap() {
 	if v, ok := m3[key]; ok {
 		fmt.Println("key" + " is" + v)
 	} else {
-		fmt.Println("key: " + key + " is not exist" )
+		fmt.Println("key: " + key + " is not exist")
 	}
 
 	m3[key] = ""
@@ -126,10 +130,9 @@ func testMakeMap() {
 	if v, ok := m3[key]; ok {
 		fmt.Println(key + " is:" + v)
 	} else {
-		fmt.Println("key:" + key + "is not exist" )
+		fmt.Println("key:" + key + "is not exist")
 	}
 }
-
 
 func TestMakeAndNew() {
 	testBasic()

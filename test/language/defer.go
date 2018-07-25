@@ -3,7 +3,7 @@ package language
 import "fmt"
 
 // defer越在后面定义越先执行
-func testRunOrder1()  {
+func testRunOrder1() {
 	fmt.Println("test defer run order1")
 
 	var i int = 0
@@ -19,7 +19,7 @@ func testRunOrder1()  {
 }
 
 // defer定义在return运行后面的将不会执行
-func testRunOrder2()  {
+func testRunOrder2() {
 	fmt.Println("test defer run order2")
 
 	var i int = 0
@@ -35,7 +35,7 @@ func testRunOrder2()  {
 
 	return
 
-	defer func(){
+	defer func() {
 		fmt.Println("defer C is called")
 	}()
 }
