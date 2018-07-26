@@ -5,7 +5,6 @@ import (
 	"log"
 	"strconv"
 	"time"
-	"math/rand"
 )
 
 //chan(信道) 是goroutine之间互相通讯的东西。 类似我们Unix上的管道（可以在进程间传递消息），
@@ -141,46 +140,6 @@ func testSingleDirChannel() {
 }
 
 //channel多路复用
-type chatServer struct {
-	personASend chan string
-	personARecv chan string
-	personBSend chan string
-	personBRecv chan string
-}
-
-func (*chatServer) speck(word string) {
-
-}
-
-func (*chatServer) start() {
-
-}
-
-func testSelectChannel() {
-
-	personASend := make(chan string)
-	personARecv := make(chan string)
-	personBSend := make(chan string)
-	personBRecv := make(chan string)
-
-	chatSvr := chatServer{
-		personASend, personARecv, personBSend, personBRecv,
-	}
-
-	chatSvr.start()
-
-	chatCli := func(name string) {
-		for i:= 1; i <= 30; i++ {
-			randTime := rand.Intn(10)
-			k,_ := strconv.ParseInt(strconv.Itoa(randTime * time.Millisecond), 10, 64)
-			chatSvr.speck(fmt.Sprintf("person:%s, say:%d", name, randTime))
-		}
-	}
-
-	
-	go chatCli("A")
-	go chatCli("B")
-}
 
 func TestChannel() {
 	createChan()
