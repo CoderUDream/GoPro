@@ -2,7 +2,7 @@ package main
 
 import (
 	"time"
-	"./makeandnew"
+	"./language"
 )
 
 func main() {
@@ -18,7 +18,7 @@ func main() {
 	//testNoDistributedLock()
 
 	//testDistributedLock()
-	makeandnew.TestMakeAndNew()
+	language.TestChannel(5)
 	//i := make(chan int)
 	//log.Println(<- i)
 	//log.Println("------------------end---------------------")

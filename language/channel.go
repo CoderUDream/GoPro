@@ -11,8 +11,8 @@ import (
 // 用来goroutine之间发消息和接收消息。其实，就是在做goroutine之间的内存共享
 
 /*知识点：
-1. chann的创建
-2. chann的类型
+1. chan的创建
+2. chan的类型
    2.1 存储的数据类型
    2.2 有无缓冲类型
        默认的信道在存，取消息的时候都是阻塞的
@@ -29,7 +29,7 @@ import (
 	1. 如何优雅地关闭Go channel https://www.jianshu.com/p/d24dfbb33781
 */
 
-//创建chann
+//创建chan
 func createChan() {
 	//都需要使用make
 	var channel1 chan int = make(chan int) //使用var 定义
@@ -140,14 +140,48 @@ func testSingleDirChannel() {
 }
 
 //channel多路复用
+func testChanSelect() {
+	channel1 := make(chan int)
+	channel2 := make(chan int, 3)
 
-func TestChannel() {
-	createChan()
+	go func() {
+		i := 1
+		for {
+			channel1 <- i
+			time.Sleep(1 * time.Second)
+		}
+		close(channel1)
+	}()
 
-	testChanCache()
+	for {
+		select {
+		case i1 := <-channel1:
+			log.Println("channel1 recv i1:" + strconv.Itoa(i1))
+		case channel2 <- 1:
+			log.Println("channel2 send 1")
+		case i2 := <-channel2:
+			log.Println("channel2recv i1:" + strconv.Itoa(i2))
+		}
+		time.Sleep(500 * time.Millisecond)
+	}
+	close(channel2)
+}
 
-	testChannelBlock()
+func TestChannel(i int) {
+	switch i {
+	case 1:
+		createChan()
+	case 2:
+		testChanCache()
+	case 3:
+		testChannelBlock()
+	case 4:
+		testSingleDirChannel()
+	case 5:
+		testChanSelect()
+	}
 
-	testSingleDirChannel()
+
+
 
 }
